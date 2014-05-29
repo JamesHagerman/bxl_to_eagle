@@ -53,12 +53,14 @@ puts "First file byte in binary: #{whole_file_binary.first}"
 # Make a string of all the bytes... man this is gonna be long...
 
 full_encoded_file = whole_file_binary.join('')
-puts "Whole damn compressed file as a big long binary string!: #{full_encoded_file}"
+# puts "Whole damn compressed file as a big long binary string!: #{full_encoded_file}"
 
 # Decode it using this HuffmanCoder and hope the system doesn't run out of memory!
-# extracted_file = HuffmanCoder.decode(full_encoded_file.to_s)
-# puts "Full extracted file: #{extracted_file.plaintext.to_s}"
-# puts "Full extracted file size: #{extracted_file.plaintext.to_s.length}"
+puts "Attempting extraction... This takes a while..."
+extracted_file = HuffmanCoder.decode(full_encoded_file.to_s)
+puts "Full extracted file: #{extracted_file.plaintext.to_s}"
+puts "Full extracted file size: #{extracted_file.plaintext.to_s.length}"
+
 
 
 # Oops that didn't work:
