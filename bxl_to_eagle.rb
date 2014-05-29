@@ -1,11 +1,18 @@
-# You'll need: git@github.com:lithium3141/HuffmanCoding.git
+# I took the coder.rb from: git@github.com:lithium3141/HuffmanCoding.git
+#
+# Thanks to lithium3141 for "letting me" borrow their code...
+#
+# Honestly, this probably isn't the right way to do Huffman decoding for bxl files.
+# I read over on DangerousPrototypes in a comment that the first 4 bytes of the bxl
+# file is the file length of the original file, before it was compressed into a bxl.
+#
+# I have no idea if this is true. I doubt this huffman decoding code will work
+# correctly given the actual format of bxl files.
+#
 require './coder.rb'
-# require 'file'
-
-puts "This shouldn't be all that hard..."
 
 # Load the file
-filename = "./MCP4822-X_P.bxl" # 296091648
+filename = "./MCP4822-X_P.bxl" # original file length: 296091648
 file = open(filename,"rb")
 
 # Pull off the first 4 bytes as the length of the original file
@@ -13,29 +20,7 @@ original_length = file.read(4)
 length_array = original_length.bytes.map { |n| n.to_s(16) }
 puts "The first four bytes (in hex) are: #{length_array}"
 puts "That's the original files length (in bytes): #{original_length.unpack('L>').first}" # L is 32 bit, > is Big endian
-
-
-##===============
-## Let's output the first four bytes in HEX just to make sure we're on the right track:
-# og_hex_length = []
-# original_length.each do |byte|
-# 	og_hex_length << byte.to_s(16)
-# end	
-# puts "First four converted into hex: #{og_hex_length}"
-##===============
-
-##===============
-## To check the bxl file format, let's try validating the size of the original file based on the EAGLE
-## file output by the REAL bxl reader software:
-# expected_file = "./2014-05-28_10-36-23_Library.scr"
-# correct_file = File.new(expected_file,"r")
-# whole_correct_file = correct_file.read.bytes.to_a
-# puts "Expected file length: #{whole_correct_file.length}" # OOPS! This is 3301 which is way off.
-## What this tells us is that the first four bytes of the bxl file is NOT the full length of the output
-## but it is probably the full length of the decoded file that has CHUNKS of CAD files IN it!
-##
-## So, we need to just try reading the whole damn thing. Whatever.
-##===============
+puts
 
 # Read the rest of the file (We already seeked paste the first 4 bytes!)
 whole_file = file.read.bytes.to_a
